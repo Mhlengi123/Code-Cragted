@@ -10,6 +10,7 @@ import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Pricing from './components/Pricing';
 import Briefing from './components/Briefing';
+import PaymentPortal from './components/PaymentPortal';
 import Footer from './components/Footer';
 import AIChatBot from './components/AIChatBot';
 import WhatsAppButton from './components/WhatsAppButton';
@@ -37,6 +38,8 @@ export default function App() {
         return <Pricing key="pricing" />;
       case 'briefing':
         return <Briefing key="briefing" />;
+      case 'payment':
+        return <PaymentPortal key="payment" />;
       case 'home':
       default:
         return <Home key="home" />;
@@ -54,6 +57,11 @@ export default function App() {
         return {
           title: "Request Strategic Briefing",
           description: "Initiate your digital transformation by providing your technical constraints and business objectives."
+        };
+      case 'payment':
+        return {
+          title: "Strategic Capital Transfer",
+          description: "Secure gateway for project settlement and retainer deployment."
         };
       case 'home':
       default:

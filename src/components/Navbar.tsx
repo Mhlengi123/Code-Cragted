@@ -23,6 +23,7 @@ export default function Navbar({ activePage }: NavbarProps) {
     { name: 'About Us', hash: '#about' },
     { name: 'Case Studies', hash: '#portfolio' },
     { name: 'Pricing', hash: '#pricing' },
+    { name: 'Portal', hash: '#payment' },
   ];
 
   return (
