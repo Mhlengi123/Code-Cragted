@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Send, ArrowRight } from 'lucide-react';
 import ProjectCarousel from './ProjectCarousel';
@@ -10,6 +10,22 @@ export default function Home() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const name = formData.get('name');
+    const email = formData.get('email');
+    const message = formData.get('message');
+
+    const subject = `New Project Inquiry: ${name}`;
+    const body = `
+Project Inquiry Details
+-----------------------
+Name: ${name}
+Email: ${email}
+Message: ${message}
+    `.trim();
+
+    const mailtoLink = `mailto:mathonsimhlengi8@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+    window.location.href = mailtoLink;
+
     setIsSubmitted(true);
     // Reset form after 5 seconds
     setTimeout(() => setIsSubmitted(false), 5000);

@@ -14,10 +14,15 @@ export interface Project {
   link: string;
 }
 
+export interface Feature {
+  text: string;
+  detail: string;
+}
+
 export interface PricingPlan {
   name: string;
   price: string;
-  features: string[];
+  features: Feature[];
 }
 
 export const PROJECTS: Project[] = [
@@ -107,17 +112,35 @@ export const ONE_TIME_PLANS: PricingPlan[] = [
   {
     name: 'Basic Business Website',
     price: 'R2,500 – R4,500',
-    features: ['Up to 5 pages', 'Contact Form', 'Mobile Responsive', 'SEO Basics', '1 round of revisions'],
+    features: [
+      { text: 'Up to 5 strategic pages', detail: 'Engineering of core landing and information pages optimized for conversion and brand authority.' },
+      { text: 'Contact Form Integration', detail: 'Custom-built secure lead capture forms with automated email delivery systems.' },
+      { text: 'Mobile-Responsive UI', detail: 'Fully fluid interface that maintains technical and visual integrity across all modern mobile and tablet devices.' },
+      { text: 'SEO Foundation', detail: 'Technical on-page optimization including semantic markup, meta-tagging, and site architecture analysis.' },
+      { text: '1 Refinement Cycle', detail: 'Post-deployment review phase to ensure all technical and aesthetic specifications are met.' }
+    ],
   },
   {
     name: 'Professional / E-commerce',
     price: 'R6,500 – R12,000',
-    features: ['Up to 15 pages / Products', 'Payment Gateway', 'Advanced SEO', 'Product Management', '2 rounds of revisions'],
+    features: [
+      { text: 'Up to 15 pages / Products', detail: 'Scalable infrastructure designed for product catalogs or deep informational hierarchies.' },
+      { text: 'Secure Payment Gateway', detail: 'Integration with trusted payment providers (Stripe, Payfast) using industry-standard encryption.' },
+      { text: 'Advanced Technical SEO', detail: 'Enhanced schema markup, keyword mapping, and performance-based SEO auditing.' },
+      { text: 'E-commerce Management', detail: 'Intuitive administrative dashboard for managing inventory, orders, and customer data.' },
+      { text: '2 Refinement Cycles', detail: 'Extended testing and feedback loops to ensure complex e-commerce logic is perfectly synchronized.' }
+    ],
   },
   {
     name: 'Custom Web Application',
     price: 'R15,000+',
-    features: ['Custom features', 'Database integration', 'User login', 'Scalable architecture', '3 rounds of revisions'],
+    features: [
+      { text: 'Bespoke Logic & Features', detail: 'Development of unique functional requirements matching your specific business logic.' },
+      { text: 'Enterprise Database Systems', detail: 'Robust, secure database architecture designed for data integrity and rapid retrieval.' },
+      { text: 'Secure User Authentication', detail: 'Multi-layered login systems with role-based access control and data protection.' },
+      { text: 'Cloud-Scalable Architecture', detail: 'Built on modern infrastructure (Firebase, AWS) that grows dynamically with your user base.' },
+      { text: '3 Refinement Cycles', detail: 'Iterative development approach with multiple validation stages for mission-critical software.' }
+    ],
   },
 ];
 
@@ -125,16 +148,31 @@ export const MAINTENANCE_PLANS: PricingPlan[] = [
   {
     name: 'Basic Care',
     price: 'R850 / mo',
-    features: ['Weekly backups', 'Uptime monitoring', 'Security updates', '1 hour of small changes'],
+    features: [
+      { text: 'Weekly Cloud Backups', detail: 'Automated off-site storage of your entire digital asset to ensure rapid recovery from data loss.' },
+      { text: '24/7 Uptime Monitoring', detail: 'Continuous active polling of your server state with instant notification of downtime events.' },
+      { text: 'Core Security Updates', detail: 'Proactive patching of CMS cores, security patches, and server-side dependencies.' },
+      { text: '1hr Technical Tweaks', detail: 'Dedicated engineering time for minor updates, content adjustments, or style refinements.' }
+    ],
   },
   {
     name: 'Pro Care',
     price: 'R1,500 / mo',
-    features: ['Everything in Basic', 'Monthly performance report', '3 hours of changes', 'Plugin/theme updates'],
+    features: [
+      { text: 'All Basic Care Features', detail: 'Full inclusion of backups, monitoring, and standard security patching.' },
+      { text: 'Performance Analytics', detail: 'Deep-dive monthly report on page speed, conversion rates, and user engagement metrics.' },
+      { text: '3hrs Technical Alignment', detail: 'Expanded engineering bandwidth for ongoing feature enhancements or optimizations.' },
+      { text: 'Stack Updates', detail: 'Manual review and update of all third-party plugins, themes, and API integrations.' }
+    ],
   },
   {
     name: 'Business Care',
     price: 'R2,800 / mo',
-    features: ['Everything in Pro', '24/7 priority support', '6 hours of changes', 'Monthly SEO check', 'Content updates'],
+    features: [
+      { text: 'All Pro Care Features', detail: 'Comprehensive management including full performance auditing and stack updates.' },
+      { text: 'Priority Strategic Support', detail: 'Guaranteed sub-4 hour response time for critical technical inquiries or urgent updates.' },
+      { text: '6hrs Strategic Development', detail: 'Significant monthly engineering allocation for scaling features or system expansions.' },
+      { text: 'Deep SEO Auditing', detail: 'Monthly review of search rankings, competitor analysis, and technical SEO health.' }
+    ],
   },
 ];

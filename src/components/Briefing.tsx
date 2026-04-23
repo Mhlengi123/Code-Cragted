@@ -17,8 +17,31 @@ export default function Briefing() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate API call
-    console.log('Briefing data submitted:', formData);
+    
+    // Construct email body
+    const body = `
+Strategic Briefing Request
+------------------------
+Name: ${formData.name}
+Email: ${formData.email}
+Company: ${formData.company}
+Project Type: ${formData.projectType}
+Budget Range: ${formData.budgetRange}
+Timeline: ${formData.timeline}
+
+Objectives & Infrastructure Requirements:
+${formData.objectives}
+
+Message:
+${formData.description}
+    `.trim();
+
+    const subject = `Strategic Briefing Request: ${formData.projectType} - ${formData.company || formData.name}`;
+    const mailtoLink = `mailto:mathonsimhlengi8@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+    // Trigger email client
+    window.location.href = mailtoLink;
+    
     setSubmitted(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };

@@ -47,9 +47,11 @@ export default function Pricing() {
                 <div className="h-px bg-gray-100" />
                 <ul className="space-y-4">
                   {plan.features.map(feature => (
-                    <li key={feature} className="flex items-start gap-3 text-xs font-serif text-slate-600">
-                      <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0" />
-                      {feature}
+                    <li key={feature.text} className="flex flex-col gap-1">
+                      <div className="flex items-start gap-3 text-xs font-serif text-slate-600">
+                        <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0" />
+                        {feature.text}
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -88,8 +90,8 @@ export default function Pricing() {
               </div>
               <ul className="space-y-3 flex-1">
                 {plan.features.map(feature => (
-                  <li key={feature} className="text-xs font-serif text-slate-500 italic flex gap-2">
-                    <span className="text-accent">/</span> {feature}
+                  <li key={feature.text} className="text-xs font-serif text-slate-500 italic flex gap-2">
+                    <span className="text-accent">/</span> {feature.text}
                   </li>
                 ))}
               </ul>
@@ -142,11 +144,14 @@ export default function Pricing() {
                        <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary border-b border-slate-100 pb-2 flex items-center gap-2">
                          <FileText size={14} className="text-accent" /> Strategic Deliverables
                        </h4>
-                       <ul className="space-y-3">
+                       <ul className="space-y-6">
                           {selectedPlan.features.map(f => (
-                            <li key={f} className="text-xs font-serif text-slate-500 italic flex gap-3">
-                               <Check size={12} className="text-accent mt-0.5 flex-shrink-0" />
-                               {f}
+                            <li key={f.text} className="space-y-1">
+                               <div className="text-[11px] font-bold text-primary flex gap-3">
+                                  <Check size={12} className="text-accent mt-0.5 flex-shrink-0" />
+                                  {f.text}
+                               </div>
+                               <p className="pl-6 text-[10px] font-serif text-slate-400 leading-relaxed italic">{f.detail}</p>
                             </li>
                           ))}
                        </ul>

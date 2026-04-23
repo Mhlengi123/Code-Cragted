@@ -1,10 +1,23 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { MessageSquare, X, Send, Bot, User, Sparkles, Loader2 } from 'lucide-react';
+import { MessageSquare, X, Send, Bot, User, Sparkles, Loader2, Trash2, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { GoogleGenAI } from "@google/genai";
 
 // Initialize Gemini API
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+type Feedback = 'up' | 'down';
+
+interface Message {
+  role: 'user' | 'bot';
+  text: string;
+  feedback?: Feedback;
+}
+
+const INITIAL_MESSAGE: Message = { 
+  role: 'bot', 
+  text: "Welcome to CodeCrafted. I'm your AI Strategist. How can I assist with your project objectives today?" 
+};
 
 const SYSTEM_PROMPT = `
 You are the AI Digital Strategist for CodeCrafted, a boutique engineering and web development firm founded by Mhlengi Mathonsi.
@@ -35,8 +48,8 @@ Guidelines:
 export default function AIChatBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [showGreeting, setShowGreeting] = useState(false);
-  const [messages, setMessages] = useState<{ role: 'user' | 'bot'; text: string }[]>([
-    { role: 'bot', text: "Welcome to CodeCrafted. I'm your AI Strategist. How can I assist with your project objectives today?" }
+  const [messages, setMessages] = useState<Message[]>([
+    INITIAL_MESSAGE
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -61,6 +74,18 @@ export default function AIChatBot() {
     scrollToBottom();
   }, [messages]);
 
+  const handleClearChat = () => {
+    if (window.confirm("Are you sure you want to clear your strategic consultation history?")) {
+      setMessages([INITIAL_MESSAGE]);
+    }
+  };
+
+  const handleFeedback = (index: number, feedback: Feedback) => {
+    setMessages(prev => prev.map((m, i) => i === index ? { ...m, feedback } : m));
+    // In a real app, you would send this to a backend (e.g. Firestore)
+    console.log(`Feedback for message ${index}: ${feedback}`);
+  };
+
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
@@ -83,11 +108,15 @@ export default function AIChatBot() {
         ],
       });
 
-      const botText = response.text || "I apologize, but I encountered a technical variance. Please reach out to our team directly.";
-      setMessages(prev => [...prev, { role: 'bot', text: botText }]);
+      if (!response.text) {
+        throw new Error("Strategic response variance detected.");
+      }
+
+      setMessages(prev => [...prev, { role: 'bot', text: response.text }]);
     } catch (error) {
-      console.error("AI Error:", error);
-      setMessages(prev => [...prev, { role: 'bot', text: "Technical error in communication channel. Please use our direct line or email for urgent inquiries." }]);
+      console.error("Strategic Consultation Error:", error);
+      const friendlyError = "The consultation window is experiencing a temporary technical variance. Please attempt your inquiry again in a few moments, or contact Mhlengi directly at mathonsimhlengi8@gmail.com for strategic support.";
+      setMessages(prev => [...prev, { role: 'bot', text: friendlyError }]);
     } finally {
       setIsLoading(false);
     }
@@ -162,9 +191,18 @@ export default function AIChatBot() {
                   </p>
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className="text-white/40 hover:text-white transition-colors">
-                <X size={20} />
-              </button>
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={handleClearChat}
+                  title="Clear strategic history"
+                  className="text-white/40 hover:text-white transition-colors p-1"
+                >
+                  <Trash2 size={16} />
+                </button>
+                <button onClick={() => setIsOpen(false)} className="text-white/40 hover:text-white transition-colors">
+                  <X size={20} />
+                </button>
+              </div>
             </div>
 
             {/* Messages Area */}
@@ -175,8 +213,26 @@ export default function AIChatBot() {
                     <div className={`w-8 h-8 rounded-lg flex-shrink-0 flex items-center justify-center ${m.role === 'user' ? 'bg-primary text-white' : 'bg-white border border-slate-100 text-accent'}`}>
                       {m.role === 'user' ? <User size={14} /> : <Bot size={14} />}
                     </div>
-                    <div className={`p-4 text-xs font-serif leading-relaxed ${m.role === 'user' ? 'bg-primary text-white' : 'bg-white text-slate-600 border border-slate-100 shadow-sm'} italic`}>
-                      {m.text}
+                    <div className="flex flex-col gap-1">
+                      <div className={`p-4 text-xs font-serif leading-relaxed ${m.role === 'user' ? 'bg-primary text-white' : 'bg-white text-slate-600 border border-slate-100 shadow-sm'} italic`}>
+                        {m.text}
+                      </div>
+                      {m.role === 'bot' && (
+                        <div className="flex items-center gap-2 px-1">
+                          <button 
+                            onClick={() => handleFeedback(i, 'up')}
+                            className={`p-1 transition-colors hover:text-accent ${m.feedback === 'up' ? 'text-accent' : 'text-slate-300'}`}
+                          >
+                            <ThumbsUp size={12} />
+                          </button>
+                          <button 
+                            onClick={() => handleFeedback(i, 'down')}
+                            className={`p-1 transition-colors hover:text-accent ${m.feedback === 'down' ? 'text-accent' : 'text-slate-300'}`}
+                          >
+                            <ThumbsDown size={12} />
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
